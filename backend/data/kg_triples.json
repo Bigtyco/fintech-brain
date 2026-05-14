@@ -1,0 +1,442 @@
+[
+  {
+    "source": "中信证券",
+    "relation": "PUBLISHES",
+    "target": "2025年宏观经济展望：复苏之路"
+  },
+  {
+    "source": "中信证券",
+    "relation": "COVERS_INDUSTRY",
+    "target": "宏观经济"
+  },
+  {
+    "source": "光伏",
+    "relation": "BELONGS_TO",
+    "target": "宏观经济"
+  },
+  {
+    "source": "中信证券",
+    "relation": "RECOMMENDS",
+    "target": "光伏"
+  },
+  {
+    "source": "风电",
+    "relation": "BELONGS_TO",
+    "target": "宏观经济"
+  },
+  {
+    "source": "中信证券",
+    "relation": "RECOMMENDS",
+    "target": "风电"
+  },
+  {
+    "source": "储能产业链",
+    "relation": "BELONGS_TO",
+    "target": "宏观经济"
+  },
+  {
+    "source": "中信证券",
+    "relation": "RECOMMENDS",
+    "target": "储能产业链"
+  },
+  {
+    "source": "国产替代加速推进",
+    "relation": "BELONGS_TO",
+    "target": "宏观经济"
+  },
+  {
+    "source": "中信证券",
+    "relation": "RECOMMENDS",
+    "target": "国产替代加速推进"
+  },
+  {
+    "source": "白酒",
+    "relation": "BELONGS_TO",
+    "target": "宏观经济"
+  },
+  {
+    "source": "中信证券",
+    "relation": "RECOMMENDS",
+    "target": "白酒"
+  },
+  {
+    "source": "医药",
+    "relation": "BELONGS_TO",
+    "target": "宏观经济"
+  },
+  {
+    "source": "中信证券",
+    "relation": "RECOMMENDS",
+    "target": "医药"
+  },
+  {
+    "source": "免税",
+    "relation": "BELONGS_TO",
+    "target": "宏观经济"
+  },
+  {
+    "source": "中信证券",
+    "relation": "RECOMMENDS",
+    "target": "免税"
+  },
+  {
+    "source": "AI",
+    "relation": "BELONGS_TO",
+    "target": "宏观经济"
+  },
+  {
+    "source": "中信证券",
+    "relation": "RECOMMENDS",
+    "target": "AI"
+  },
+  {
+    "source": "云计算",
+    "relation": "BELONGS_TO",
+    "target": "宏观经济"
+  },
+  {
+    "source": "中信证券",
+    "relation": "RECOMMENDS",
+    "target": "云计算"
+  },
+  {
+    "source": "大数据",
+    "relation": "BELONGS_TO",
+    "target": "宏观经济"
+  },
+  {
+    "source": "中信证券",
+    "relation": "RECOMMENDS",
+    "target": "大数据"
+  },
+  {
+    "source": "华泰证券",
+    "relation": "PUBLISHES",
+    "target": "人工智能行业深度报告：大模型产业链全景"
+  },
+  {
+    "source": "华泰证券",
+    "relation": "COVERS_INDUSTRY",
+    "target": "人工智能"
+  },
+  {
+    "source": "GPT-5",
+    "relation": "BELONGS_TO",
+    "target": "人工智能"
+  },
+  {
+    "source": "华泰证券",
+    "relation": "RECOMMENDS",
+    "target": "GPT-5"
+  },
+  {
+    "source": "AI Agent",
+    "relation": "BELONGS_TO",
+    "target": "人工智能"
+  },
+  {
+    "source": "华泰证券",
+    "relation": "RECOMMENDS",
+    "target": "AI Agent"
+  },
+  {
+    "source": "RAG",
+    "relation": "BELONGS_TO",
+    "target": "人工智能"
+  },
+  {
+    "source": "华泰证券",
+    "relation": "RECOMMENDS",
+    "target": "RAG"
+  },
+  {
+    "source": "多模态应用爆发",
+    "relation": "BELONGS_TO",
+    "target": "人工智能"
+  },
+  {
+    "source": "华泰证券",
+    "relation": "RECOMMENDS",
+    "target": "多模态应用爆发"
+  },
+  {
+    "source": "寒武纪",
+    "relation": "BELONGS_TO",
+    "target": "人工智能"
+  },
+  {
+    "source": "华泰证券",
+    "relation": "RECOMMENDS",
+    "target": "寒武纪"
+  },
+  {
+    "source": "海光信息",
+    "relation": "BELONGS_TO",
+    "target": "人工智能"
+  },
+  {
+    "source": "华泰证券",
+    "relation": "RECOMMENDS",
+    "target": "海光信息"
+  },
+  {
+    "source": "浪潮信息",
+    "relation": "BELONGS_TO",
+    "target": "人工智能"
+  },
+  {
+    "source": "华泰证券",
+    "relation": "RECOMMENDS",
+    "target": "浪潮信息"
+  },
+  {
+    "source": "中科曙光",
+    "relation": "BELONGS_TO",
+    "target": "人工智能"
+  },
+  {
+    "source": "华泰证券",
+    "relation": "RECOMMENDS",
+    "target": "中科曙光"
+  },
+  {
+    "source": "科大讯飞",
+    "relation": "BELONGS_TO",
+    "target": "人工智能"
+  },
+  {
+    "source": "华泰证券",
+    "relation": "RECOMMENDS",
+    "target": "科大讯飞"
+  },
+  {
+    "source": "金山办公",
+    "relation": "BELONGS_TO",
+    "target": "人工智能"
+  },
+  {
+    "source": "华泰证券",
+    "relation": "RECOMMENDS",
+    "target": "金山办公"
+  },
+  {
+    "source": "易华录",
+    "relation": "BELONGS_TO",
+    "target": "人工智能"
+  },
+  {
+    "source": "华泰证券",
+    "relation": "RECOMMENDS",
+    "target": "易华录"
+  },
+  {
+    "source": "海天瑞声",
+    "relation": "BELONGS_TO",
+    "target": "人工智能"
+  },
+  {
+    "source": "华泰证券",
+    "relation": "RECOMMENDS",
+    "target": "海天瑞声"
+  },
+  {
+    "source": "国泰君安",
+    "relation": "PUBLISHES",
+    "target": "新能源汽车行业2025年策略：智能化下半场"
+  },
+  {
+    "source": "国泰君安",
+    "relation": "COVERS_INDUSTRY",
+    "target": "新能源汽车"
+  },
+  {
+    "source": "理想",
+    "relation": "BELONGS_TO",
+    "target": "新能源汽车"
+  },
+  {
+    "source": "国泰君安",
+    "relation": "RECOMMENDS",
+    "target": "理想"
+  },
+  {
+    "source": "蔚来",
+    "relation": "BELONGS_TO",
+    "target": "新能源汽车"
+  },
+  {
+    "source": "国泰君安",
+    "relation": "RECOMMENDS",
+    "target": "蔚来"
+  },
+  {
+    "source": "小鹏分化加剧",
+    "relation": "BELONGS_TO",
+    "target": "新能源汽车"
+  },
+  {
+    "source": "国泰君安",
+    "relation": "RECOMMENDS",
+    "target": "小鹏分化加剧"
+  },
+  {
+    "source": "比亚迪",
+    "relation": "BELONGS_TO",
+    "target": "新能源汽车"
+  },
+  {
+    "source": "国泰君安",
+    "relation": "RECOMMENDS",
+    "target": "比亚迪"
+  },
+  {
+    "source": "理想汽车",
+    "relation": "BELONGS_TO",
+    "target": "新能源汽车"
+  },
+  {
+    "source": "国泰君安",
+    "relation": "RECOMMENDS",
+    "target": "理想汽车"
+  },
+  {
+    "source": "拓普集团",
+    "relation": "BELONGS_TO",
+    "target": "新能源汽车"
+  },
+  {
+    "source": "国泰君安",
+    "relation": "RECOMMENDS",
+    "target": "拓普集团"
+  },
+  {
+    "source": "三花智控",
+    "relation": "BELONGS_TO",
+    "target": "新能源汽车"
+  },
+  {
+    "source": "国泰君安",
+    "relation": "RECOMMENDS",
+    "target": "三花智控"
+  },
+  {
+    "source": "德赛西威",
+    "relation": "BELONGS_TO",
+    "target": "新能源汽车"
+  },
+  {
+    "source": "国泰君安",
+    "relation": "RECOMMENDS",
+    "target": "德赛西威"
+  },
+  {
+    "source": "中科创达",
+    "relation": "BELONGS_TO",
+    "target": "新能源汽车"
+  },
+  {
+    "source": "国泰君安",
+    "relation": "RECOMMENDS",
+    "target": "中科创达"
+  },
+  {
+    "source": "招商证券",
+    "relation": "PUBLISHES",
+    "target": "银行业2025年展望：息差企稳，估值修复"
+  },
+  {
+    "source": "招商证券",
+    "relation": "COVERS_INDUSTRY",
+    "target": "银行"
+  },
+  {
+    "source": "中金公司",
+    "relation": "PUBLISHES",
+    "target": "医药行业2025年策略：创新出海，否极泰来"
+  },
+  {
+    "source": "中金公司",
+    "relation": "COVERS_INDUSTRY",
+    "target": "医药"
+  },
+  {
+    "source": "百济神州",
+    "relation": "BELONGS_TO",
+    "target": "医药"
+  },
+  {
+    "source": "中金公司",
+    "relation": "RECOMMENDS",
+    "target": "百济神州"
+  },
+  {
+    "source": "恒瑞医药",
+    "relation": "BELONGS_TO",
+    "target": "医药"
+  },
+  {
+    "source": "中金公司",
+    "relation": "RECOMMENDS",
+    "target": "恒瑞医药"
+  },
+  {
+    "source": "信达生物",
+    "relation": "BELONGS_TO",
+    "target": "医药"
+  },
+  {
+    "source": "中金公司",
+    "relation": "RECOMMENDS",
+    "target": "信达生物"
+  },
+  {
+    "source": "药明康德",
+    "relation": "BELONGS_TO",
+    "target": "医药"
+  },
+  {
+    "source": "中金公司",
+    "relation": "RECOMMENDS",
+    "target": "药明康德"
+  },
+  {
+    "source": "迈瑞医疗",
+    "relation": "BELONGS_TO",
+    "target": "医药"
+  },
+  {
+    "source": "中金公司",
+    "relation": "RECOMMENDS",
+    "target": "迈瑞医疗"
+  },
+  {
+    "source": "联影医疗",
+    "relation": "BELONGS_TO",
+    "target": "医药"
+  },
+  {
+    "source": "中金公司",
+    "relation": "RECOMMENDS",
+    "target": "联影医疗"
+  },
+  {
+    "source": "片仔癀",
+    "relation": "BELONGS_TO",
+    "target": "医药"
+  },
+  {
+    "source": "中金公司",
+    "relation": "RECOMMENDS",
+    "target": "片仔癀"
+  },
+  {
+    "source": "以岭药业",
+    "relation": "BELONGS_TO",
+    "target": "医药"
+  },
+  {
+    "source": "中金公司",
+    "relation": "RECOMMENDS",
+    "target": "以岭药业"
+  }
+]

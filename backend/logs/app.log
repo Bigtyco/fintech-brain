@@ -1,0 +1,79 @@
+2026-05-14 09:23:44.692 | INFO     | app.agents.graph:route_intent:14 - Routing to: research
+2026-05-14 09:23:55.214 | WARNING  | app.agents.nodes.retrieval:retrieval_node:17 - RAG retrieval failed: <MilvusException: (code=2, message=Fail connecting to server on localhost:19530, illegal connection params or server unavailable)>
+2026-05-14 09:23:55.219 | WARNING  | app.agents.nodes.knowledge_graph:knowledge_graph_node:23 - KG query failed: 'NoneType' object has no attribute 'session'
+2026-05-14 09:33:05.375 | INFO     | app.agents.graph:route_intent:14 - Routing to: research
+2026-05-14 09:33:15.853 | WARNING  | app.agents.nodes.retrieval:retrieval_node:17 - RAG retrieval failed: <MilvusException: (code=2, message=Fail connecting to server on localhost:19530, illegal connection params or server unavailable)>
+2026-05-14 09:33:15.900 | WARNING  | app.agents.nodes.knowledge_graph:knowledge_graph_node:23 - KG query failed: 'NoneType' object has no attribute 'session'
+2026-05-14 09:34:39.331 | INFO     | app.agents.graph:route_intent:14 - Routing to: research
+2026-05-14 09:34:49.711 | WARNING  | app.agents.nodes.retrieval:retrieval_node:17 - RAG retrieval failed: <MilvusException: (code=2, message=Fail connecting to server on localhost:19530, illegal connection params or server unavailable)>
+2026-05-14 09:34:49.720 | WARNING  | app.agents.nodes.knowledge_graph:knowledge_graph_node:23 - KG query failed: 'NoneType' object has no attribute 'session'
+2026-05-14 09:50:19.067 | INFO     | app.agents.graph:route_intent:14 - Routing to: research
+2026-05-14 09:50:19.652 | INFO     | app.rag.milvus_client:connect_milvus:17 - Connected to Milvus at milvus-standalone:19530
+2026-05-14 09:50:20.670 | INFO     | app.rag.milvus_client:ensure_collection:41 - Created Milvus collection: finance_documents
+2026-05-14 09:50:24.685 | INFO     | app.rag.retriever:hybrid_search:44 - Hybrid search: query='平安银行2025年第一季度财报如何', vector=0, bm25=0, final=0
+2026-05-14 09:50:24.689 | WARNING  | app.agents.nodes.knowledge_graph:knowledge_graph_node:23 - KG query failed: 'NoneType' object has no attribute 'session'
+2026-05-14 09:54:06.129 | INFO     | app.knowledge_graph.neo4j_client:connect:17 - Connected to Neo4j at bolt://neo4j:7687
+2026-05-14 09:55:02.392 | INFO     | app.agents.graph:route_intent:14 - Routing to: research
+2026-05-14 09:55:02.823 | INFO     | app.rag.milvus_client:connect_milvus:17 - Connected to Milvus at milvus-standalone:19530
+2026-05-14 09:55:03.166 | INFO     | app.rag.retriever:hybrid_search:44 - Hybrid search: query='平安银行2025年第一季度财报如何', vector=0, bm25=0, final=0
+2026-05-14 09:55:03.255 | WARNING  | app.agents.nodes.knowledge_graph:knowledge_graph_node:23 - KG query failed: Failed to DNS resolve address neo4j:7687: [Errno -2] Name or service not known
+2026-05-14 10:01:01.646 | INFO     | app.agents.graph:route_intent:14 - Routing to: research
+2026-05-14 10:01:02.336 | INFO     | app.rag.milvus_client:connect_milvus:17 - Connected to Milvus at milvus-standalone:19530
+2026-05-14 10:01:02.572 | INFO     | app.rag.retriever:hybrid_search:44 - Hybrid search: query='平安银行2025年第一季度财报如何', vector=0, bm25=0, final=0
+2026-05-14 10:04:13.969 | INFO     | app.agents.graph:route_intent:14 - Routing to: research
+2026-05-14 10:04:14.486 | INFO     | app.rag.milvus_client:connect_milvus:17 - Connected to Milvus at milvus-standalone:19530
+2026-05-14 10:04:14.575 | INFO     | app.rag.retriever:hybrid_search:44 - Hybrid search: query='平安银行2025年第二季度财报如何', vector=0, bm25=0, final=0
+2026-05-14 10:09:25.781 | INFO     | app.agents.graph:route_intent:14 - Routing to: research
+2026-05-14 10:09:26.029 | INFO     | app.rag.milvus_client:connect_milvus:17 - Connected to Milvus at milvus-standalone:19530
+2026-05-14 10:09:26.058 | INFO     | app.rag.retriever:hybrid_search:44 - Hybrid search: query='平安银行2025年第三季度财报如何', vector=0, bm25=0, final=0
+2026-05-14 10:14:18.418 | INFO     | app.knowledge_graph.neo4j_client:connect:17 - Connected to Neo4j at bolt://neo4j:7687
+2026-05-14 10:14:44.374 | INFO     | app.agents.nodes.router:router_node:33 - Calling LLM for routing: model=qwen3.5-plus-2026-02-15
+2026-05-14 10:14:55.493 | INFO     | app.agents.nodes.router:router_node:43 - Router intent: research
+2026-05-14 10:14:55.494 | INFO     | app.agents.graph:route_intent:14 - Routing to: research
+2026-05-14 10:14:55.958 | INFO     | app.rag.milvus_client:connect_milvus:17 - Connected to Milvus at milvus-standalone:19530
+2026-05-14 10:14:56.345 | INFO     | app.rag.retriever:hybrid_search:44 - Hybrid search: query='平安银行2025年全三季度财报如何', vector=0, bm25=0, final=0
+2026-05-14 10:14:58.754 | INFO     | app.agents.nodes.research:research_node:42 - Calling LLM for research: model=qwen3.5-plus-2026-02-15, base_url=https://dashscope.aliyuncs.com/compatible-mode/v1
+2026-05-14 10:16:00.604 | INFO     | app.agents.nodes.research:research_node:47 - LLM response received, length=2125
+2026-05-14 10:18:36.401 | INFO     | app.knowledge_graph.neo4j_client:connect:17 - Connected to Neo4j at bolt://neo4j:7687
+2026-05-14 10:19:58.578 | INFO     | app.agents.nodes.router:router_node:33 - Calling LLM for routing: model=qwen3.5-plus-2026-02-15
+2026-05-14 10:20:07.294 | INFO     | app.agents.nodes.router:router_node:43 - Router intent: research
+2026-05-14 10:20:07.295 | INFO     | app.agents.graph:route_intent:14 - Routing to: research
+2026-05-14 10:20:07.759 | INFO     | app.rag.milvus_client:connect_milvus:17 - Connected to Milvus at milvus-standalone:19530
+2026-05-14 10:20:08.299 | INFO     | app.rag.retriever:hybrid_search:44 - Hybrid search: query='银行业2025年展望是什么？', vector=0, bm25=0, final=0
+2026-05-14 10:20:10.492 | INFO     | app.agents.nodes.research:research_node:42 - Calling LLM for research: model=qwen3.5-plus-2026-02-15, base_url=https://dashscope.aliyuncs.com/compatible-mode/v1
+2026-05-14 10:21:25.755 | INFO     | app.agents.nodes.research:research_node:47 - LLM response received, length=2762
+2026-05-14 10:23:28.447 | INFO     | app.agents.nodes.router:router_node:33 - Calling LLM for routing: model=qwen3.5-plus-2026-02-15
+2026-05-14 10:23:38.139 | INFO     | app.agents.nodes.router:router_node:43 - Router intent: research
+2026-05-14 10:23:38.143 | INFO     | app.agents.graph:route_intent:14 - Routing to: research
+2026-05-14 10:23:38.403 | INFO     | app.rag.milvus_client:connect_milvus:17 - Connected to Milvus at milvus-standalone:19530
+2026-05-14 10:23:38.422 | INFO     | app.rag.retriever:hybrid_search:44 - Hybrid search: query='银行业2025年展望是什么？', vector=0, bm25=0, final=0
+2026-05-14 10:23:38.453 | INFO     | app.agents.nodes.research:research_node:42 - Calling LLM for research: model=qwen3.5-plus-2026-02-15, base_url=https://dashscope.aliyuncs.com/compatible-mode/v1
+2026-05-14 10:24:37.625 | INFO     | app.agents.nodes.research:research_node:47 - LLM response received, length=2655
+2026-05-14 10:27:08.160 | INFO     | app.knowledge_graph.neo4j_client:connect:17 - Connected to Neo4j at bolt://neo4j:7687
+2026-05-14 10:28:03.034 | INFO     | app.api.chat:chat:21 - Chat request from user 1: 银行业2025年展望是什么？...
+2026-05-14 10:28:04.977 | INFO     | app.agents.nodes.router:router_node:33 - Calling LLM for routing: model=qwen3.5-plus-2026-02-15
+2026-05-14 10:28:13.822 | INFO     | app.agents.nodes.router:router_node:43 - Router intent: research
+2026-05-14 10:28:13.824 | INFO     | app.agents.graph:route_intent:14 - Routing to: research
+2026-05-14 10:28:14.328 | INFO     | app.rag.milvus_client:connect_milvus:17 - Connected to Milvus at milvus-standalone:19530
+2026-05-14 10:28:14.667 | INFO     | app.rag.retriever:hybrid_search:44 - Hybrid search: query='银行业2025年展望是什么？', vector=0, bm25=0, final=0
+2026-05-14 10:28:16.193 | INFO     | app.agents.nodes.research:research_node:42 - Calling LLM for research: model=qwen3.5-plus-2026-02-15, base_url=https://dashscope.aliyuncs.com/compatible-mode/v1
+2026-05-14 10:29:10.433 | INFO     | app.agents.nodes.research:research_node:47 - LLM response received, length=2518
+2026-05-14 10:29:10.450 | INFO     | app.api.chat:chat:25 - Chat response ready: conversation_id=12, intent=research, length=2518
+2026-05-14 11:07:53.750 | INFO     | app.api.chat:chat:21 - Chat request from user 1: 新能源汽车行业2025年策略是什么？...
+2026-05-14 11:07:55.499 | INFO     | app.agents.nodes.router:router_node:33 - Calling LLM for routing: model=qwen3.5-plus-2026-02-15
+2026-05-14 11:08:05.271 | INFO     | app.agents.nodes.router:router_node:43 - Router intent: research
+2026-05-14 11:08:05.276 | INFO     | app.agents.graph:route_intent:14 - Routing to: research
+2026-05-14 11:08:05.940 | INFO     | app.rag.milvus_client:connect_milvus:17 - Connected to Milvus at milvus-standalone:19530
+2026-05-14 11:08:06.148 | INFO     | app.rag.retriever:hybrid_search:44 - Hybrid search: query='新能源汽车行业2025年策略是什么？', vector=0, bm25=0, final=0
+2026-05-14 11:08:07.969 | INFO     | app.agents.nodes.research:research_node:42 - Calling LLM for research: model=qwen3.5-plus-2026-02-15, base_url=https://dashscope.aliyuncs.com/compatible-mode/v1
+2026-05-14 11:09:11.813 | INFO     | app.agents.nodes.research:research_node:47 - LLM response received, length=2791
+2026-05-14 11:09:11.839 | INFO     | app.api.chat:chat:25 - Chat response ready: conversation_id=13, intent=research, length=2791
+2026-05-14 11:11:11.098 | INFO     | app.api.chat:chat:21 - Chat request from user 1: 银行业2025年展望是什么？...
+2026-05-14 11:11:11.262 | INFO     | app.agents.nodes.router:router_node:33 - Calling LLM for routing: model=qwen3.5-plus-2026-02-15
+2026-05-14 11:11:20.275 | INFO     | app.agents.nodes.router:router_node:43 - Router intent: research
+2026-05-14 11:11:20.279 | INFO     | app.agents.graph:route_intent:14 - Routing to: research
+2026-05-14 11:11:20.450 | INFO     | app.rag.milvus_client:connect_milvus:17 - Connected to Milvus at milvus-standalone:19530
+2026-05-14 11:11:20.464 | INFO     | app.rag.retriever:hybrid_search:44 - Hybrid search: query='银行业2025年展望是什么？', vector=0, bm25=0, final=0
+2026-05-14 11:11:20.486 | INFO     | app.agents.nodes.research:research_node:42 - Calling LLM for research: model=qwen3.5-plus-2026-02-15, base_url=https://dashscope.aliyuncs.com/compatible-mode/v1
+2026-05-14 11:12:23.269 | INFO     | app.agents.nodes.research:research_node:47 - LLM response received, length=2776
+2026-05-14 11:12:23.298 | INFO     | app.api.chat:chat:25 - Chat response ready: conversation_id=13, intent=research, length=2776

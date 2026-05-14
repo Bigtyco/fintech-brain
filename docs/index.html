@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fintech Brain - 智能金融投研与风控大脑</title>
+<style>
+:root {
+  --primary: #1a73e8;
+  --primary-light: #e8f0fe;
+  --dark: #1a1a2e;
+  --text: #202124;
+  --text-secondary: #5f6368;
+  --border: #dadce0;
+  --bg: #ffffff;
+  --bg-gray: #f8f9fa;
+  --code-bg: #f1f3f4;
+  --success: #34a853;
+  --warning: #fbbc04;
+  --danger: #ea4335;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  color: var(--text);
+  line-height: 1.7;
+  background: var(--bg-gray);
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, var(--dark) 0%, #16213e 100%);
+  color: #fff;
+  padding: 60px 0 48px;
+  text-align: center;
+}
+.header h1 { font-size: 2.2em; font-weight: 700; margin-bottom: 12px; }
+.header .subtitle { font-size: 1.15em; opacity: 0.85; font-weight: 400; }
+
+/* Nav */
+.nav {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.nav .container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 10px 24px;
+}
+.nav a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+.nav a:hover { background: var(--primary-light); color: var(--primary); }
+
+/* Main */
+.main { padding: 40px 0 80px; }
+
+/* Section */
+.section {
+  background: var(--bg);
+  border-radius: 12px;
+  padding: 32px;
+  margin-bottom: 24px;
+  border: 1px solid var(--border);
+}
+.section h2 {
+  font-size: 1.5em;
+  font-weight: 700;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--primary);
+  color: var(--dark);
+}
+.section h3 {
+  font-size: 1.15em;
+  font-weight: 600;
+  margin: 24px 0 12px;
+  color: var(--text);
+}
+.section p { margin-bottom: 12px; }
+.section ul, .section ol { margin: 0 0 16px 24px; }
+.section li { margin-bottom: 6px; }
+
+/* Feature cards */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+.feature-card {
+  background: var(--bg-gray);
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid var(--border);
+}
+.feature-card h4 {
+  font-size: 1em;
+  margin-bottom: 8px;
+  color: var(--primary);
+}
+.feature-card p { font-size: 14px; color: var(--text-secondary); margin: 0; }
+
+/* Audience */
+.audience {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+.audience-item {
+  background: var(--primary-light);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+}
+.audience-item strong { display: block; margin-bottom: 4px; color: var(--dark); }
+.audience-item span { font-size: 13px; color: var(--text-secondary); }
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0 20px;
+  font-size: 14px;
+}
+th, td {
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+}
+th {
+  background: var(--bg-gray);
+  font-weight: 600;
+  color: var(--dark);
+  white-space: nowrap;
+}
+tr:hover td { background: #f8f9fa; }
+
+/* Code */
+code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+pre {
+  background: var(--dark);
+  color: #e8eaed;
+  padding: 20px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 12px 0 20px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+}
+
+/* Architecture diagram */
+.arch-diagram {
+  background: var(--bg-gray);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 16px 0;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* Badge */
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.badge-green { background: #e6f4ea; color: var(--success); }
+.badge-yellow { background: #fef7e0; color: #e37400; }
+.badge-red { background: #fce8e6; color: var(--danger); }
+.badge-blue { background: var(--primary-light); color: var(--primary); }
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 32px 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+}
+
+@media (max-width: 640px) {
+  .header { padding: 40px 0 32px; }
+  .header h1 { font-size: 1.6em; }
+  .section { padding: 20px; }
+  .features { grid-template-columns: 1fr; }
+  .audience { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="container">
+    <h1>Fintech Brain</h1>
+    <p class="subtitle">智能金融投研与风控大脑 &mdash; 基于 LangGraph 多 Agent 架构的金融投资研究与风险控制 AI 系统</p>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="container">
+    <a href="#intro">项目介绍</a>
+    <a href="#tech">技术栈</a>
+    <a href="#arch">系统架构</a>
+    <a href="#structure">项目结构</a>
+    <a href="#start">快速开始</a>
+    <a href="#env">环境变量</a>
+    <a href="#api">API 接口</a>
+    <a href="#agent">智能体系统</a>
+    <a href="#rag">RAG 检索</a>
+    <a href="#kg">知识图谱</a>
+    <a href="#db">数据库模型</a>
+    <a href="#frontend">前端说明</a>
+    <a href="#dev">开发指南</a>
+  </div>
+</nav>
+
+<div class="main">
+<div class="container">
+
+<!-- 项目介绍 -->
+<div class="section" id="intro">
+  <h2>项目介绍</h2>
+  <p><strong>智能金融投研与风控大脑</strong> (Finance Brain) 是一个基于 LangGraph 多 Agent 架构的金融投资研究与风险控制 AI 系统。用户通过自然语言提问，系统自动识别意图，结合 RAG 混合检索与知识图谱，提供专业的投研分析和风控评估。</p>
+
+  <h3>核心功能</h3>
+  <div class="features">
+    <div class="feature-card">
+      <h4>1. 智能投研对话</h4>
+      <p>自然语言提问，自动识别意图（投研分析 / 风控评估 / 通用对话），基于 LangGraph 多 Agent 工作流生成专业分析。</p>
+    </div>
+    <div class="feature-card">
+      <h4>2. RAG 混合检索</h4>
+      <p>向量检索（Milvus）+ BM25 关键词检索，RRF 融合排序 + Reranker 二次精排，支持上传研报自动索引。</p>
+    </div>
+    <div class="feature-card">
+      <h4>3. 知识图谱</h4>
+      <p>Neo4j 构建金融领域知识图谱（公司、行业、风险关系），Agent 分析时自动查询关联信息。</p>
+    </div>
+    <div class="feature-card">
+      <h4>4. 风控看板</h4>
+      <p>可视化展示风险预警、待审项目、信用/市场/操作风险趋势，支持多维度风险监控。</p>
+    </div>
+    <div class="feature-card">
+      <h4>5. 文档管理</h4>
+      <p>上传管理金融研报和分析文档，集成 MinerU 解析器处理 PDF，自动切分索引。</p>
+    </div>
+  </div>
+
+  <h3>面向人群</h3>
+  <div class="audience">
+    <div class="audience-item">
+      <strong>金融投研分析师</strong>
+      <span>快速检索研报、分析行业/公司、生成投研报告</span>
+    </div>
+    <div class="audience-item">
+      <strong>风控合规人员</strong>
+      <span>风险评估、合规审查、风险预警监控</span>
+    </div>
+    <div class="audience-item">
+      <strong>基金经理 / 投资经理</strong>
+      <span>辅助决策支持，整合多源信息</span>
+    </div>
+    <div class="audience-item">
+      <strong>金融机构技术团队</strong>
+      <span>内部 AI 投研工具的原型或基础框架</span>
+    </div>
+  </div>
+</div>
+
+<!-- 技术栈 -->
+<div class="section" id="tech">
+  <h2>技术栈</h2>
+  <h3>后端</h3>
+  <table>
+    <tr><th>类别</th><th>技术</th></tr>
+    <tr><td>语言</td><td>Python 3.11</td></tr>
+    <tr><td>Web 框架</td><td>FastAPI + Uvicorn</td></tr>
+    <tr><td>ORM</td><td>SQLAlchemy (async) + Alembic</td></tr>
+    <tr><td>数据库</td><td>MySQL 8.0</td></tr>
+    <tr><td>缓存</td><td>Redis 7</td></tr>
+    <tr><td>向量数据库</td><td>Milvus 2.4</td></tr>
+    <tr><td>知识图谱</td><td>Neo4j 5</td></tr>
+    <tr><td>LLM/Agent</td><td>LangGraph + LangChain + LangChain-OpenAI</td></tr>
+    <tr><td>文档解析</td><td>MinerU (magic-pdf)</td></tr>
+    <tr><td>日志</td><td>Loguru</td></tr>
+  </table>
+
+  <h3>前端</h3>
+  <table>
+    <tr><th>类别</th><th>技术</th></tr>
+    <tr><td>框架</td><td>Vue 3.4</td></tr>
+    <tr><td>构建工具</td><td>Vite 5.4</td></tr>
+    <tr><td>状态管理</td><td>Pinia 2.1</td></tr>
+    <tr><td>路由</td><td>Vue Router 4.3</td></tr>
+    <tr><td>UI 组件库</td><td>Element Plus 2.7</td></tr>
+    <tr><td>图表</td><td>ECharts 5.5 + vue-echarts</td></tr>
+    <tr><td>Markdown</td><td>markdown-it</td></tr>
+    <tr><td>HTTP 客户端</td><td>Axios</td></tr>
+  </table>
+
+  <h3>基础设施</h3>
+  <table>
+    <tr><th>服务</th><th>镜像</th><th>端口</th><th>用途</th></tr>
+    <tr><td>MySQL</td><td>mysql:8.0</td><td>3306</td><td>主数据库</td></tr>
+    <tr><td>Redis</td><td>redis:7-alpine</td><td>6379</td><td>缓存</td></tr>
+    <tr><td>etcd</td><td>quay.io/coreos/etcd:v3.5.5</td><td>2379</td><td>Milvus 元数据存储</td></tr>
+    <tr><td>Milvus-MinIO</td><td>minio/minio</td><td>9010/9011</td><td>Milvus 对象存储</td></tr>
+    <tr><td>Milvus</td><td>milvusdb/milvus:v2.4.0</td><td>19530, 9091</td><td>向量数据库</td></tr>
+    <tr><td>Neo4j</td><td>neo4j:5-community</td><td>7474, 7687</td><td>知识图谱数据库</td></tr>
+    <tr><td>Backend</td><td>自定义构建</td><td>8000</td><td>FastAPI 应用</td></tr>
+    <tr><td>Frontend</td><td>nginx:alpine</td><td>80</td><td>Vue SPA</td></tr>
+  </table>
+</div>
+
+<!-- 系统架构 -->
+<div class="section" id="arch">
+  <h2>系统架构</h2>
+  <h3>整体流程</h3>
+  <div class="arch-diagram">用户请求 (Vue 3 SPA)
+    │
+    ▼
+FastAPI 路由层 (api/)
+    │
+    ├── /api/auth/*      → auth_service → MySQL
+    ├── /api/chat/*      → chat_service → LangGraph Agent
+    ├── /api/documents/* → document_service → 本地文件存储 + MySQL
+    ├── /api/knowledge/* → Neo4j 直接查询
+    └── /api/dashboard/* → 模拟数据
+    │
+    ▼
+LangGraph 多智能体工作流
+    │
+    ├─ router (意图分类: research / risk / chat)
+    │
+    ├─ [chat 路径] → response → END
+    │
+    └─ [research/risk 路径]
+         │
+         ▼
+       retrieval (混合检索: Milvus 向量搜索 + BM25 关键词搜索 → RRF 融合 → 重排序)
+         │
+         ▼
+       kg_query (Neo4j 知识图谱查询)
+         │
+         ├── [research] → research_node (投研分析) → END
+         └── [risk]     → risk_control_node (风控评估) → END</div>
+
+  <h3>混合检索管线</h3>
+  <div class="arch-diagram">用户查询
+    │
+    ├── Embedding API (BGE-large-zh-v1.5) → 查询向量
+    │       │
+    │       ▼
+    │   Milvus 向量搜索 (COSINE, top 20)
+    │
+    └── jieba 分词 → BM25 关键词搜索 (top 20)
+            │
+            ▼
+        RRF 融合 (Reciprocal Rank Fusion, k=60)
+            │
+            ▼
+        BGE-Reranker 重排序 (top 5)
+            │
+            ▼
+        上下文注入 → LLM 生成</div>
+</div>
+
+<!-- 项目结构 -->
+<div class="section" id="structure">
+  <h2>项目结构</h2>
+<pre><code>fintech-brain/
+├── .env                          # 环境变量配置
+├── .gitignore
+├── docker-compose.yml            # Docker 编排
+├── Makefile                      # 开发命令
+├── README.md
+│
+├── backend/                      # Python 后端
+│   ├── pyproject.toml            # 项目依赖
+│   ├── Dockerfile
+│   ├── alembic/
+│   │   └── env.py                # 数据库迁移配置
+│   └── app/
+│       ├── main.py               # FastAPI 应用入口
+│       ├── config.py             # 配置管理 (pydantic-settings)
+│       ├── deps.py               # 依赖注入 (认证)
+│       │
+│       ├── core/                 # 核心层
+│       │   ├── database.py       # SQLAlchemy 异步引擎
+│       │   ├── redis.py          # Redis 客户端
+│       │   ├── security.py       # JWT + bcrypt
+│       │   └── logging.py        # Loguru 日志配置
+│       │
+│       ├── models/               # ORM 模型
+│       │   ├── user.py           # 用户模型
+│       │   ├── conversation.py   # 会话 + 消息模型
+│       │   └── document.py       # 文档模型
+│       │
+│       ├── schemas/              # Pydantic 请求/响应模型
+│       │   ├── auth.py           # 认证相关
+│       │   ├── chat.py           # 对话相关
+│       │   └── document.py       # 文档相关
+│       │
+│       ├── api/                  # API 路由
+│       │   ├── auth.py           # /api/auth/*
+│       │   ├── chat.py           # /api/chat/*
+│       │   ├── documents.py      # /api/documents/*
+│       │   ├── knowledge.py      # /api/knowledge/*
+│       │   └── dashboard.py      # /api/dashboard/*
+│       │
+│       ├── services/             # 业务逻辑
+│       │   ├── auth_service.py   # 认证服务
+│       │   ├── chat_service.py   # 对话服务 (调用 LangGraph)
+│       │   ├── document_service.py # 文档 CRUD
+│       │   └── cache_service.py  # Redis 缓存
+│       │
+│       ├── agents/               # LangGraph 多智能体
+│       │   ├── state.py          # 共享状态定义
+│       │   ├── graph.py          # 工作流编排
+│       │   ├── nodes/
+│       │   │   ├── router.py     # 意图路由
+│       │   │   ├── retrieval.py  # RAG 检索
+│       │   │   ├── knowledge_graph.py # 知识图谱查询
+│       │   │   ├── research.py   # 投研分析
+│       │   │   ├── risk_control.py # 风控评估
+│       │   │   └── response.py   # 通用回复
+│       │   └── tools/
+│       │       ├── search_tool.py     # 文档搜索工具
+│       │       ├── calculator.py      # 金融计算器
+│       │       └── kg_tool.py         # 知识图谱查询工具
+│       │
+│       ├── rag/                  # RAG 检索系统
+│       │   ├── milvus_client.py  # Milvus 向量数据库客户端
+│       │   ├── embeddings.py     # Embedding 服务调用
+│       │   ├── bm25.py           # BM25 关键词检索
+│       │   ├── reranker.py       # 重排序服务调用
+│       │   └── retriever.py      # 混合检索编排 (RRF 融合)
+│       │
+│       ├── knowledge_graph/      # 知识图谱
+│       │   ├── neo4j_client.py   # Neo4j 异步客户端
+│       │   ├── queries.py        # 预定义 Cypher 查询
+│       │   └── extractor.py      # LLM 实体/关系抽取
+│       │
+│       └── parser/
+│           └── mineru_parser.py  # MinerU 文档解析
+│
+└── frontend/                     # Vue 3 前端
+    ├── package.json
+    ├── vite.config.js
+    ├── Dockerfile
+    ├── nginx.conf                # 生产环境 Nginx 配置
+    └── src/
+        ├── main.js               # 应用入口
+        ├── App.vue               # 根组件
+        ├── router/index.js       # 路由配置
+        ├── stores/
+        │   ├── user.js           # 用户状态 (Pinia)
+        │   └── chat.js           # 对话状态 (Pinia)
+        ├── api/
+        │   ├── request.js        # Axios 实例 (JWT 拦截器)
+        │   ├── auth.js           # 认证 API
+        │   ├── chat.js           # 对话 API
+        │   └── document.js       # 文档 API
+        ├── utils/index.js        # 工具函数
+        └── views/
+            ├── Login.vue         # 登录页
+            ├── Register.vue      # 注册页
+            ├── Chat.vue          # 主对话界面
+            ├── Dashboard.vue     # 风控看板
+            ├── Documents.vue     # 文档管理
+            └── KnowledgeGraph.vue # 知识图谱可视化</code></pre>
+</div>
+
+<!-- 快速开始 -->
+<div class="section" id="start">
+  <h2>快速开始</h2>
+  <h3>前置要求</h3>
+  <ul>
+    <li>Docker &amp; Docker Compose</li>
+    <li>Node.js 20+ (本地开发前端)</li>
+    <li>Python 3.11+ (本地开发后端)</li>
+  </ul>
+
+  <h3>方式一：Docker Compose 一键启动</h3>
+<pre><code># 克隆项目
+git clone &lt;repo-url&gt;
+cd fintech-brain
+
+# 复制并编辑环境变量
+cp .env.example .env   # 或直接编辑 .env
+
+# 启动所有服务
+docker-compose up -d
+
+# 查看日志
+docker-compose logs -f</code></pre>
+  <p>启动后访问：</p>
+  <ul>
+    <li>前端：<code>http://localhost:80</code></li>
+    <li>后端 API：<code>http://localhost:8000</code></li>
+    <li>API 文档：<code>http://localhost:8000/docs</code></li>
+  </ul>
+
+  <h3>方式二：本地开发</h3>
+<pre><code># 安装所有依赖
+make install
+
+# 启动基础设施 (MySQL, Redis, Milvus, Neo4j)
+make up
+
+# 启动后端 (热重载)
+make backend
+
+# 启动前端 (另一个终端)
+make frontend</code></pre>
+
+  <h3>数据库迁移</h3>
+<pre><code># 生成迁移脚本
+make db-migrate msg="initial migration"
+
+# 执行迁移
+make db-upgrade</code></pre>
+</div>
+
+<!-- 环境变量 -->
+<div class="section" id="env">
+  <h2>环境变量</h2>
+  <p>项目通过 <code>.env</code> 文件配置，所有变量均可通过环境变量覆盖。</p>
+
+  <h3>LLM 配置</h3>
+  <table>
+    <tr><th>变量</th><th>默认值</th><th>说明</th></tr>
+    <tr><td><code>JUDGE_MODEL_NAME</code></td><td><code>gpt-4</code></td><td>意图分类和生成使用的模型</td></tr>
+    <tr><td><code>API_KEY</code></td><td>-</td><td>LLM API Key</td></tr>
+    <tr><td><code>BASE_URL</code></td><td><code>https://api.openai.com/v1</code></td><td>LLM API 地址</td></tr>
+  </table>
+
+  <h3>SiliconFlow (Embedding + Reranker)</h3>
+  <table>
+    <tr><th>变量</th><th>默认值</th><th>说明</th></tr>
+    <tr><td><code>SILICONFLOW_API_KEY</code></td><td>-</td><td>硅基流动 API Key</td></tr>
+    <tr><td><code>SILICONFLOW_BASE_URL</code></td><td><code>https://api.siliconflow.cn/v1</code></td><td>硅基流动 API 地址</td></tr>
+    <tr><td><code>EMBEDDING_MODEL</code></td><td><code>BAAI/bge-large-zh-v1.5</code></td><td>Embedding 模型名</td></tr>
+    <tr><td><code>RERANKER_MODEL</code></td><td><code>BAAI/bge-reranker-v2-m3</code></td><td>Reranker 模型名</td></tr>
+  </table>
+
+  <h3>MySQL</h3>
+  <table>
+    <tr><th>变量</th><th>默认值</th><th>说明</th></tr>
+    <tr><td><code>MYSQL_HOST</code></td><td><code>localhost</code></td><td>主机</td></tr>
+    <tr><td><code>MYSQL_PORT</code></td><td><code>3306</code></td><td>端口</td></tr>
+    <tr><td><code>MYSQL_USER</code></td><td><code>root</code></td><td>用户名</td></tr>
+    <tr><td><code>MYSQL_PASSWORD</code></td><td><code>password</code></td><td>密码</td></tr>
+    <tr><td><code>MYSQL_DATABASE</code></td><td><code>finance_brain</code></td><td>数据库名</td></tr>
+  </table>
+
+  <h3>Redis</h3>
+  <table>
+    <tr><th>变量</th><th>默认值</th><th>说明</th></tr>
+    <tr><td><code>REDIS_URL</code></td><td><code>redis://localhost:6379/0</code></td><td>Redis 连接地址</td></tr>
+  </table>
+
+  <h3>Milvus</h3>
+  <table>
+    <tr><th>变量</th><th>默认值</th><th>说明</th></tr>
+    <tr><td><code>MILVUS_HOST</code></td><td><code>localhost</code></td><td>主机</td></tr>
+    <tr><td><code>MILVUS_PORT</code></td><td><code>19530</code></td><td>端口</td></tr>
+  </table>
+
+  <h3>Neo4j</h3>
+  <table>
+    <tr><th>变量</th><th>默认值</th><th>说明</th></tr>
+    <tr><td><code>NEO4J_URI</code></td><td><code>bolt://localhost:7687</code></td><td>连接地址</td></tr>
+    <tr><td><code>NEO4J_USER</code></td><td><code>neo4j</code></td><td>用户名</td></tr>
+    <tr><td><code>NEO4J_PASSWORD</code></td><td><code>root1234</code></td><td>密码</td></tr>
+  </table>
+
+  <h3>文件存储</h3>
+  <table>
+    <tr><th>变量</th><th>默认值</th><th>说明</th></tr>
+    <tr><td><code>UPLOAD_DIR</code></td><td><code>uploads</code></td><td>上传文件存储目录</td></tr>
+  </table>
+
+  <h3>JWT</h3>
+  <table>
+    <tr><th>变量</th><th>默认值</th><th>说明</th></tr>
+    <tr><td><code>JWT_SECRET_KEY</code></td><td><code>your-secret-key-...</code></td><td>JWT 签名密钥 (生产环境必须修改)</td></tr>
+    <tr><td><code>JWT_ALGORITHM</code></td><td><code>HS256</code></td><td>签名算法</td></tr>
+    <tr><td><code>JWT_ACCESS_TOKEN_EXPIRE_MINUTES</code></td><td><code>30</code></td><td>Access Token 有效期 (分钟)</td></tr>
+    <tr><td><code>JWT_REFRESH_TOKEN_EXPIRE_DAYS</code></td><td><code>7</code></td><td>Refresh Token 有效期 (天)</td></tr>
+  </table>
+</div>
+
+<!-- API 接口 -->
+<div class="section" id="api">
+  <h2>API 接口</h2>
+
+  <h3>认证 <code>/api/auth</code></h3>
+  <table>
+    <tr><th>方法</th><th>路径</th><th>说明</th><th>认证</th></tr>
+    <tr><td><span class="badge badge-green">POST</span></td><td><code>/api/auth/register</code></td><td>用户注册</td><td>否</td></tr>
+    <tr><td><span class="badge badge-green">POST</span></td><td><code>/api/auth/login</code></td><td>用户登录</td><td>否</td></tr>
+    <tr><td><span class="badge badge-green">POST</span></td><td><code>/api/auth/refresh</code></td><td>刷新 Token</td><td>否</td></tr>
+    <tr><td><span class="badge badge-blue">GET</span></td><td><code>/api/auth/me</code></td><td>获取当前用户信息</td><td>是</td></tr>
+  </table>
+
+  <h3>对话 <code>/api/chat</code></h3>
+  <table>
+    <tr><th>方法</th><th>路径</th><th>说明</th><th>认证</th></tr>
+    <tr><td><span class="badge badge-green">POST</span></td><td><code>/api/chat/</code></td><td>发送消息并获取智能体回复</td><td>是</td></tr>
+    <tr><td><span class="badge badge-blue">GET</span></td><td><code>/api/chat/conversations</code></td><td>获取会话列表</td><td>是</td></tr>
+    <tr><td><span class="badge badge-blue">GET</span></td><td><code>/api/chat/conversations/{id}</code></td><td>获取会话详情 (含消息历史)</td><td>是</td></tr>
+  </table>
+  <p><strong>POST /api/chat 请求体：</strong></p>
+<pre><code>{
+  "message": "分析一下贵州茅台的投资价值",
+  "conversation_id": 1
+}</code></pre>
+  <p><strong>响应：</strong></p>
+<pre><code>{
+  "conversation_id": 1,
+  "message": "...(智能体回复)...",
+  "intent": "research"
+}</code></pre>
+
+  <h3>文档 <code>/api/documents</code></h3>
+  <table>
+    <tr><th>方法</th><th>路径</th><th>说明</th><th>认证</th></tr>
+    <tr><td><span class="badge badge-green">POST</span></td><td><code>/api/documents/upload</code></td><td>上传文档 (multipart/form-data)</td><td>是</td></tr>
+    <tr><td><span class="badge badge-blue">GET</span></td><td><code>/api/documents/</code></td><td>获取文档列表</td><td>是</td></tr>
+    <tr><td><span class="badge badge-blue">GET</span></td><td><code>/api/documents/{id}</code></td><td>获取文档详情</td><td>是</td></tr>
+  </table>
+  <p>支持的文件类型：PDF, DOCX, DOC, TXT, CSV, PNG, JPEG。</p>
+
+  <h3>知识图谱 <code>/api/knowledge</code></h3>
+  <table>
+    <tr><th>方法</th><th>路径</th><th>说明</th><th>认证</th></tr>
+    <tr><td><span class="badge badge-blue">GET</span></td><td><code>/api/knowledge/search?q=</code></td><td>搜索实体</td><td>是</td></tr>
+    <tr><td><span class="badge badge-blue">GET</span></td><td><code>/api/knowledge/entity/{name}</code></td><td>获取实体关系</td><td>是</td></tr>
+    <tr><td><span class="badge badge-blue">GET</span></td><td><code>/api/knowledge/graph?center=&depth=</code></td><td>获取子图 (节点 + 边)</td><td>是</td></tr>
+  </table>
+
+  <h3>风控看板 <code>/api/dashboard</code></h3>
+  <table>
+    <tr><th>方法</th><th>路径</th><th>说明</th><th>认证</th></tr>
+    <tr><td><span class="badge badge-blue">GET</span></td><td><code>/api/dashboard/overview</code></td><td>概览数据</td><td>是</td></tr>
+    <tr><td><span class="badge badge-blue">GET</span></td><td><code>/api/dashboard/risk-trends</code></td><td>风险趋势 (6个月)</td><td>是</td></tr>
+    <tr><td><span class="badge badge-blue">GET</span></td><td><code>/api/dashboard/risk-distribution</code></td><td>风险分布</td><td>是</td></tr>
+  </table>
+
+  <h3>健康检查</h3>
+  <table>
+    <tr><th>方法</th><th>路径</th><th>说明</th><th>认证</th></tr>
+    <tr><td><span class="badge badge-blue">GET</span></td><td><code>/health</code></td><td>服务健康检查</td><td>否</td></tr>
+  </table>
+</div>
+
+<!-- 智能体系统 -->
+<div class="section" id="agent">
+  <h2>智能体系统</h2>
+  <h3>LangGraph 工作流</h3>
+  <p>系统使用 LangGraph 构建有向无环图 (DAG) 驱动的多智能体工作流。</p>
+  <table>
+    <tr><th>节点</th><th>职责</th><th>温度</th></tr>
+    <tr><td><code>router</code></td><td>意图分类 (research / risk / chat)</td><td>0.0</td></tr>
+    <tr><td><code>retrieval</code></td><td>RAG 混合检索</td><td>-</td></tr>
+    <tr><td><code>kg_query</code></td><td>知识图谱实体关系查询</td><td>-</td></tr>
+    <tr><td><code>research</code></td><td>投研分析生成</td><td>0.3</td></tr>
+    <tr><td><code>risk_control</code></td><td>风控评估生成</td><td>0.2</td></tr>
+    <tr><td><code>response</code></td><td>通用对话回复</td><td>0.5</td></tr>
+  </table>
+
+  <h3>路由逻辑</h3>
+<div class="arch-diagram">router ──┬── [intent=research] ──→ retrieval → kg_query → research → END
+         ├── [intent=risk]     ──→ retrieval → kg_query → risk_control → END
+         └── [intent=chat]     ──→ response → END</div>
+
+  <h3>意图分类</h3>
+  <ul>
+    <li><strong>research (投研分析)</strong>：股票分析、行业研究、财务数据解读、投资建议等</li>
+    <li><strong>risk (风控评估)</strong>：风险评估、合规检查、风险预警、压力测试等</li>
+    <li><strong>chat (通用对话)</strong>：日常问答、功能咨询等</li>
+  </ul>
+
+  <h3>AgentState 共享状态</h3>
+<pre><code>class AgentState(TypedDict):
+    messages: Annotated[list, operator.add]  # 消息列表 (追加语义)
+    intent: str                               # 分类意图
+    retrieved_docs: list[dict]                # RAG 检索结果
+    kg_results: list[dict]                    # 知识图谱查询结果
+    context: str                              # 组装后的上下文
+    response: str                             # 最终 LLM 回复</code></pre>
+</div>
+
+<!-- RAG 检索系统 -->
+<div class="section" id="rag">
+  <h2>RAG 检索系统</h2>
+
+  <h3>向量数据库 (Milvus)</h3>
+  <ul>
+    <li><strong>Collection</strong>: <code>finance_documents</code></li>
+    <li><strong>向量维度</strong>: 1024 (BGE-large-zh-v1.5)</li>
+    <li><strong>索引类型</strong>: IVF_FLAT</li>
+    <li><strong>距离度量</strong>: COSINE</li>
+    <li><strong>字段</strong>: <code>id</code>, <code>doc_id</code>, <code>chunk_index</code>, <code>content</code> (VARCHAR 8192), <code>metadata</code> (VARCHAR 4096), <code>embedding</code> (FLOAT_VECTOR 1024)</li>
+  </ul>
+
+  <h3>BM25 关键词检索</h3>
+  <ul>
+    <li>使用 <code>rank_bm25</code> 库的 BM25Okapi 算法</li>
+    <li>中文分词：jieba</li>
+    <li>内存索引，适合中小规模文档集</li>
+  </ul>
+
+  <h3>混合检索与融合</h3>
+  <ol>
+    <li><strong>查询向量化</strong>：调用 Embedding API 获取查询向量</li>
+    <li><strong>向量搜索</strong>：Milvus ANN 搜索，返回 top 20</li>
+    <li><strong>关键词搜索</strong>：BM25 搜索，返回 top 20</li>
+    <li><strong>RRF 融合</strong>：Reciprocal Rank Fusion 算法合并两路结果<br><code>score = &Sigma; 1/(k + rank + 1)</code>，k=60</li>
+    <li><strong>重排序</strong>：调用 BGE-Reranker 对融合结果重排序，返回 top 5</li>
+  </ol>
+
+  <h3>文档解析 (MinerU)</h3>
+  <p>使用 MinerU (<code>magic-pdf</code> CLI) 解析 PDF/DOCX 等文档为结构化文本，然后按 512 字符 (64 字符重叠) 切分为文本块。</p>
+</div>
+
+<!-- 知识图谱 -->
+<div class="section" id="kg">
+  <h2>知识图谱</h2>
+
+  <h3>实体类型</h3>
+  <table>
+    <tr><th>类型</th><th>说明</th></tr>
+    <tr><td>Company</td><td>公司</td></tr>
+    <tr><td>Person</td><td>人物</td></tr>
+    <tr><td>Industry</td><td>行业</td></tr>
+    <tr><td>RiskEvent</td><td>风险事件</td></tr>
+    <tr><td>FinancialIndicator</td><td>财务指标</td></tr>
+    <tr><td>Policy</td><td>政策法规</td></tr>
+  </table>
+
+  <h3>关系类型</h3>
+  <table>
+    <tr><th>关系</th><th>说明</th></tr>
+    <tr><td>BELONGS_TO</td><td>属于 (公司→行业)</td></tr>
+    <tr><td>HAS_INDICATOR</td><td>拥有指标 (公司→财务指标)</td></tr>
+    <tr><td>CAUSES</td><td>导致 (风险事件→风险事件)</td></tr>
+    <tr><td>TRIGGERS</td><td>触发</td></tr>
+    <tr><td>INVESTS_IN</td><td>投资</td></tr>
+    <tr><td>COMPETES_WITH</td><td>竞争</td></tr>
+    <tr><td>REGULATED_BY</td><td>受监管</td></tr>
+  </table>
+
+  <h3>预定义查询</h3>
+  <ul>
+    <li><code>company_relations</code>：公司所有关系</li>
+    <li><code>risk_chain</code>：风险事件因果链 (1-3 跳)</li>
+    <li><code>industry_peers</code>：同行业公司</li>
+    <li><code>financial_indicators</code>：公司财务指标 (按期间倒序)</li>
+  </ul>
+
+  <h3>实体抽取</h3>
+  <p>通过 LLM 从金融文本中自动抽取实体和关系，生成结构化 JSON 后写入 Neo4j。</p>
+</div>
+
+<!-- 数据库模型 -->
+<div class="section" id="db">
+  <h2>数据库模型</h2>
+
+  <h3>users 表</h3>
+  <table>
+    <tr><th>字段</th><th>类型</th><th>说明</th></tr>
+    <tr><td>id</td><td>Integer, PK</td><td>自增主键</td></tr>
+    <tr><td>username</td><td>String(50), unique, indexed</td><td>用户名</td></tr>
+    <tr><td>email</td><td>String(100), unique, indexed</td><td>邮箱</td></tr>
+    <tr><td>hashed_password</td><td>String(128)</td><td>bcrypt 哈希密码</td></tr>
+    <tr><td>is_active</td><td>Boolean, default=True</td><td>是否激活</td></tr>
+    <tr><td>created_at</td><td>DateTime</td><td>创建时间</td></tr>
+    <tr><td>updated_at</td><td>DateTime</td><td>更新时间</td></tr>
+  </table>
+
+  <h3>conversations 表</h3>
+  <table>
+    <tr><th>字段</th><th>类型</th><th>说明</th></tr>
+    <tr><td>id</td><td>Integer, PK</td><td>自增主键</td></tr>
+    <tr><td>user_id</td><td>Integer, FK→users.id</td><td>所属用户</td></tr>
+    <tr><td>title</td><td>String(200), default="新对话"</td><td>会话标题</td></tr>
+    <tr><td>created_at</td><td>DateTime</td><td>创建时间</td></tr>
+    <tr><td>updated_at</td><td>DateTime</td><td>更新时间</td></tr>
+  </table>
+
+  <h3>messages 表</h3>
+  <table>
+    <tr><th>字段</th><th>类型</th><th>说明</th></tr>
+    <tr><td>id</td><td>Integer, PK</td><td>自增主键</td></tr>
+    <tr><td>conversation_id</td><td>Integer, FK→conversations.id</td><td>所属会话</td></tr>
+    <tr><td>role</td><td>String(20)</td><td><code>user</code> / <code>assistant</code> / <code>system</code></td></tr>
+    <tr><td>content</td><td>Text</td><td>消息内容</td></tr>
+    <tr><td>intent</td><td>String(20), nullable</td><td><code>research</code> / <code>risk</code> / <code>chat</code></td></tr>
+    <tr><td>created_at</td><td>DateTime</td><td>创建时间</td></tr>
+  </table>
+
+  <h3>documents 表</h3>
+  <table>
+    <tr><th>字段</th><th>类型</th><th>说明</th></tr>
+    <tr><td>id</td><td>Integer, PK</td><td>自增主键</td></tr>
+    <tr><td>filename</td><td>String(255)</td><td>原始文件名</td></tr>
+    <tr><td>file_path</td><td>String(500)</td><td>存储路径</td></tr>
+    <tr><td>file_size</td><td>Integer</td><td>文件大小 (字节)</td></tr>
+    <tr><td>content_type</td><td>String(100)</td><td>MIME 类型</td></tr>
+    <tr><td>status</td><td>String(20)</td><td><code>pending</code> / <code>parsing</code> / <code>completed</code> / <code>failed</code></td></tr>
+    <tr><td>chunk_count</td><td>Integer, default=0</td><td>解析后的文本块数</td></tr>
+    <tr><td>parsed_content</td><td>Text, nullable</td><td>解析后的文本内容</td></tr>
+    <tr><td>error_message</td><td>Text, nullable</td><td>处理错误信息</td></tr>
+    <tr><td>created_at</td><td>DateTime</td><td>创建时间</td></tr>
+    <tr><td>updated_at</td><td>DateTime</td><td>更新时间</td></tr>
+  </table>
+</div>
+
+<!-- 前端说明 -->
+<div class="section" id="frontend">
+  <h2>前端说明</h2>
+
+  <h3>页面路由</h3>
+  <table>
+    <tr><th>路径</th><th>组件</th><th>说明</th><th>需认证</th></tr>
+    <tr><td><code>/login</code></td><td>Login.vue</td><td>登录页</td><td>否</td></tr>
+    <tr><td><code>/register</code></td><td>Register.vue</td><td>注册页</td><td>否</td></tr>
+    <tr><td><code>/</code></td><td>→ <code>/chat</code></td><td>重定向</td><td>-</td></tr>
+    <tr><td><code>/chat</code></td><td>Chat.vue</td><td>主对话界面</td><td>是</td></tr>
+    <tr><td><code>/dashboard</code></td><td>Dashboard.vue</td><td>风控看板</td><td>是</td></tr>
+    <tr><td><code>/documents</code></td><td>Documents.vue</td><td>文档管理</td><td>是</td></tr>
+    <tr><td><code>/knowledge</code></td><td>KnowledgeGraph.vue</td><td>知识图谱可视化</td><td>是</td></tr>
+  </table>
+
+  <h3>主要页面功能</h3>
+  <p><strong>Chat.vue (主对话界面)</strong></p>
+  <ul>
+    <li>左侧栏：会话列表、导航按钮 (看板/文档/知识图谱)、退出登录</li>
+    <li>对话区：用户消息 (蓝色右侧)、助手消息 (白色左侧)，支持 Markdown 渲染</li>
+    <li>意图标签：投研分析 / 风控评估 / 通用对话</li>
+    <li>输入框：回车发送，加载中禁用</li>
+  </ul>
+  <p><strong>Dashboard.vue (风控看板)</strong></p>
+  <ul>
+    <li>4 个 KPI 卡片：风险预警数、待审阅项、已索引文档、知识实体数</li>
+    <li>折线图：近 6 个月信用/市场/操作风险趋势</li>
+    <li>饼图：风险类别分布 (信用/市场/操作/流动性/合规)</li>
+  </ul>
+  <p><strong>Documents.vue (文档管理)</strong></p>
+  <ul>
+    <li>文件上传：支持 PDF, DOC, DOCX, TXT, CSV, PNG, JPG</li>
+    <li>文档列表：ID、文件名、类型、大小、状态 (颜色标签)、分块数、上传时间</li>
+  </ul>
+  <p><strong>KnowledgeGraph.vue (知识图谱)</strong></p>
+  <ul>
+    <li>实体搜索框</li>
+    <li>搜索结果列表 (实体类型标签)</li>
+    <li>ECharts 力导向图可视化：节点按类别着色，边标注关系类型，支持拖拽缩放</li>
+  </ul>
+
+  <h3>前端认证机制</h3>
+  <ul>
+    <li>Token 存储于 <code>localStorage</code></li>
+    <li>Axios 请求拦截器自动附加 <code>Authorization: Bearer &lt;token&gt;</code></li>
+    <li>响应拦截器：401 自动跳转登录页，其他错误弹出 Element Plus 提示</li>
+    <li>Vue Router 导航守卫：未认证用户重定向到 <code>/login</code></li>
+  </ul>
+</div>
+
+<!-- 开发指南 -->
+<div class="section" id="dev">
+  <h2>开发指南</h2>
+
+  <h3>Makefile 命令</h3>
+<pre><code>make up              # 启动 Docker 基础设施
+make down            # 停止 Docker 基础设施
+make build           # 构建 Docker 镜像
+make logs            # 查看容器日志
+make backend         # 本地启动后端 (热重载, 端口 8000)
+make frontend        # 本地启动前端 (Vite dev server)
+make db-migrate msg="描述"  # 生成 Alembic 迁移脚本
+make db-upgrade      # 执行数据库迁移
+make install         # 安装前后端依赖</code></pre>
+
+  <h3>后端开发</h3>
+<pre><code>cd backend
+
+# 安装依赖
+pip install -e .
+
+# 安装开发依赖
+pip install -e ".[dev]"
+
+# 启动开发服务器
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+
+# 运行测试
+pytest
+
+# 代码检查
+ruff check .</code></pre>
+
+  <h3>前端开发</h3>
+<pre><code>cd frontend
+
+# 安装依赖
+npm install
+
+# 启动开发服务器 (端口 5173，自动代理 /api 到后端)
+npm run dev
+
+# 构建生产版本
+npm run build</code></pre>
+
+  <h3>添加新的 API 端点</h3>
+  <ol>
+    <li>在 <code>backend/app/schemas/</code> 中定义请求/响应模型</li>
+    <li>在 <code>backend/app/services/</code> 中实现业务逻辑</li>
+    <li>在 <code>backend/app/api/</code> 中定义路由</li>
+    <li>在 <code>backend/app/main.py</code> 中注册路由</li>
+  </ol>
+
+  <h3>添加新的智能体节点</h3>
+  <ol>
+    <li>在 <code>backend/app/agents/nodes/</code> 中创建节点函数，签名为 <code>(state: AgentState) -> dict</code></li>
+    <li>在 <code>backend/app/agents/graph.py</code> 的 <code>build_graph()</code> 中注册节点和边</li>
+    <li>如需新的意图类型，更新 <code>router.py</code> 的分类提示词</li>
+  </ol>
+</div>
+
+</div>
+</div>
+
+<div class="footer">
+  <div class="container">
+    <p>Fintech Brain &copy; 2025 &mdash; 智能金融投研与风控大脑</p>
+  </div>
+</div>
+
+</body>
+</html>
