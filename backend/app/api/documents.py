@@ -1,18 +1,71 @@
 from fastapi import APIRouter, Depends, UploadFile, File, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 import aiofiles
+import asyncio
 import os
 import uuid
 
-from app.core.database import get_db
+from app.core.database import get_db, async_session
+from app.core.logging import logger
 from app.deps import get_current_user
 from app.models.user import User
 from app.schemas.document import DocumentResponse, DocumentUploadResponse
-from app.services.document_service import save_document_meta, list_documents, get_document
+from app.services.document_service import save_document_meta, list_documents, get_document, update_document_status, update_document_content
+from app.parser.mineru_parser import parse_document, chunk_text
+from app.rag.embeddings import get_embeddings
+from app.rag.milvus_client import insert_vectors
 from app.config import get_settings
 
 settings = get_settings()
 router = APIRouter(prefix="/api/documents", tags=["文档"])
+
+
+async def parse_and_index_document(doc_id: int, file_path: str):
+    """后台任务：解析文档并写入向量库（使用独立数据库会话）"""
+    async with async_session() as db:
+        try:
+            logger.info(f"Starting document parsing: doc_id={doc_id}")
+            await update_document_status(db, doc_id, "parsing")
+            await db.commit()
+
+            # 解析文档
+            result = await parse_document(file_path)
+            markdown_content = result.get("markdown", "")
+
+            if not markdown_content:
+                logger.warning(f"No content extracted from document: doc_id={doc_id}")
+                await update_document_status(db, doc_id, "completed", chunk_count=0)
+                await db.commit()
+                return
+
+            # 文本分块
+            chunks = chunk_text(markdown_content)
+            logger.info(f"Document chunked: doc_id={doc_id}, chunks={len(chunks)}")
+
+            # 获取向量
+            texts = [c["content"] for c in chunks]
+            embeddings = await get_embeddings(texts)
+            logger.info(f"Embeddings generated: doc_id={doc_id}, count={len(embeddings)}")
+
+            # 写入 Milvus
+            insert_vectors(doc_id, chunks, embeddings)
+            logger.info(f"Vectors inserted to Milvus: doc_id={doc_id}")
+
+            # 更新状态和解析内容
+            await update_document_status(db, doc_id, "completed", chunk_count=len(chunks))
+            await update_document_content(db, doc_id, markdown_content[:10000])
+            await db.commit()
+
+            logger.info(f"Document processing completed: doc_id={doc_id}")
+
+        except Exception as e:
+            logger.error(f"Document processing failed: doc_id={doc_id}, error={e}")
+            await db.rollback()
+            try:
+                await update_document_status(db, doc_id, "failed", error=str(e))
+                await db.commit()
+            except Exception:
+                pass
 
 
 @router.post("/upload", response_model=DocumentUploadResponse)
@@ -53,8 +106,8 @@ async def upload_document(
         file_path=file_path,
     )
 
-    # TODO: 异步调用 MinerU 解析 + 向量化
-    # await parse_and_index.delay(doc.id)
+    # 异步调用解析和向量化（不传递 db，后台任务会创建独立会话）
+    asyncio.create_task(parse_and_index_document(doc.id, file_path))
 
     return DocumentUploadResponse(
         id=doc.id,

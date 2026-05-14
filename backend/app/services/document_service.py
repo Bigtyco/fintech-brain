@@ -43,3 +43,13 @@ async def update_document_status(
         doc.chunk_count = chunk_count
         if error:
             doc.error_message = error
+        await db.flush()
+
+
+async def update_document_content(
+    db: AsyncSession, doc_id: int, parsed_content: str
+):
+    doc = await get_document(db, doc_id)
+    if doc:
+        doc.parsed_content = parsed_content
+        await db.flush()

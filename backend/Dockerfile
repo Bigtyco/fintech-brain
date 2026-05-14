@@ -6,6 +6,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
+# MinerU 配置文件
+COPY magic-pdf.json /root/magic-pdf.json
+
 COPY pyproject.toml .
 RUN pip install --no-cache-dir -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com -e .
 
