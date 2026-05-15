@@ -30,6 +30,9 @@ backend/logs/
 .DS_Store
 Thumbs.db
 
+# Temp
+text.md
+
 # Node
 node_modules/
 frontend/dist/
