@@ -5,7 +5,13 @@ from app.config import get_settings
 
 settings = get_settings()
 
-engine = create_async_engine(settings.mysql_url, echo=False, pool_size=20, max_overflow=10)
+engine = create_async_engine(
+    settings.mysql_url,
+    echo=False,
+    pool_size=20,
+    max_overflow=10,
+    connect_args={"init_command": "SET time_zone='+08:00'"},
+)
 async_session = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
 

@@ -1,3 +1,4 @@
 export function formatDate(dateStr) {
-  return new Date(dateStr).toLocaleString('zh-CN')
+  if (!dateStr) return '-'
+  return new Date(dateStr).toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })
 }

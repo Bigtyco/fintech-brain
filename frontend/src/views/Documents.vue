@@ -26,7 +26,7 @@
         </el-table-column>
         <el-table-column prop="chunk_count" label="分块数" width="100" />
         <el-table-column label="上传时间" width="180">
-          <template #default="{ row }">{{ new Date(row.created_at).toLocaleString() }}</template>
+          <template #default="{ row }">{{ formatDate(row.created_at) }}</template>
         </el-table-column>
       </el-table>
     </div>
@@ -39,6 +39,12 @@ import { getDocuments, uploadDocument } from '../api/document'
 import { ElMessage } from 'element-plus'
 
 const documents = ref([])
+
+function formatDate(dateStr) {
+  if (!dateStr) return '-'
+  const d = new Date(dateStr)
+  return d.toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })
+}
 
 function formatSize(bytes) {
   if (bytes < 1024) return bytes + ' B'

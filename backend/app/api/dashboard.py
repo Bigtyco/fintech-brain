@@ -38,9 +38,9 @@ async def get_risk_trends(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
-    from datetime import datetime, timedelta
+    from datetime import datetime, timedelta, timezone
 
-    now = datetime.utcnow()
+    now = datetime.now(timezone(timedelta(hours=8))).replace(tzinfo=None)
     labels = []
     risk_counts = []
     research_counts = []
