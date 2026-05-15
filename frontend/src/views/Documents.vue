@@ -34,11 +34,33 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { getDocuments, uploadDocument } from '../api/document'
 import { ElMessage } from 'element-plus'
 
 const documents = ref([])
+let pollTimer = null
+
+const hasProcessing = computed(() =>
+  documents.value.some(d => d.status === 'pending' || d.status === 'parsing')
+)
+
+function startPolling() {
+  stopPolling()
+  pollTimer = setInterval(async () => {
+    try {
+      documents.value = await getDocuments()
+    } catch { /* ignore */ }
+    if (!hasProcessing.value) stopPolling()
+  }, 3000)
+}
+
+function stopPolling() {
+  if (pollTimer) {
+    clearInterval(pollTimer)
+    pollTimer = null
+  }
+}
 
 function formatDate(dateStr) {
   if (!dateStr) return '-'
@@ -63,8 +85,9 @@ function statusLabel(status) {
 async function handleUpload(file) {
   try {
     await uploadDocument(file)
-    ElMessage.success('上传成功')
+    ElMessage.success('上传成功，正在后台解析...')
     documents.value = await getDocuments()
+    startPolling()
   } catch (e) {
     ElMessage.error('上传失败')
   }
@@ -73,7 +96,10 @@ async function handleUpload(file) {
 
 onMounted(async () => {
   documents.value = await getDocuments()
+  if (hasProcessing.value) startPolling()
 })
+
+onUnmounted(() => stopPolling())
 </script>
 
 <style scoped>

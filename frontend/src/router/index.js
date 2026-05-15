@@ -49,8 +49,14 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach((to, from, next) => {
+let initialized = false
+
+router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore()
+  if (!initialized) {
+    initialized = true
+    await userStore.fetchUser()
+  }
   if (to.meta.requiresAuth && !userStore.isLoggedIn) {
     next('/login')
   } else if ((to.path === '/login' || to.path === '/register') && userStore.isLoggedIn) {
