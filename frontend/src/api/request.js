@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
+import router from '../router'
 
 const request = axios.create({
   baseURL: '/api',
@@ -35,10 +36,10 @@ request.interceptors.response.use(
         await axios.post('/api/auth/refresh', {}, { withCredentials: true })
         processQueue(null)
         return request(originalRequest)
-      } catch (refreshError) {
-        processQueue(refreshError)
-        window.location.href = '/login'
-        return Promise.reject(refreshError)
+      } catch {
+        processQueue(error)
+        router.push('/login')
+        return Promise.reject(error)
       } finally {
         isRefreshing = false
       }
