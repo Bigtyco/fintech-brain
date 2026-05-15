@@ -1,4 +1,6 @@
+import secrets
 from pydantic_settings import BaseSettings
+from pydantic import model_validator
 from functools import lru_cache
 from pathlib import Path
 
@@ -22,6 +24,9 @@ class Settings(BaseSettings):
     # Reranker
     reranker_model: str = "BAAI/bge-reranker-v2-m3"
 
+    # MinerU API (optional, falls back to local magic-pdf if empty)
+    mineru_api_key: str = ""
+
     # MySQL
     mysql_host: str = "localhost"
     mysql_port: int = 3306
@@ -41,14 +46,23 @@ class Settings(BaseSettings):
     neo4j_user: str = "neo4j"
     neo4j_password: str = "password"
 
+    # CORS
+    cors_origins: str = "http://localhost,http://localhost:80,http://localhost:3000,http://localhost:5173"
+
     # File Storage
     upload_dir: str = "uploads"
 
     # JWT
-    jwt_secret_key: str = "your-secret-key-change-in-production"
+    jwt_secret_key: str = ""
     jwt_algorithm: str = "HS256"
     jwt_access_token_expire_minutes: int = 30
     jwt_refresh_token_expire_days: int = 7
+
+    @model_validator(mode="after")
+    def validate_security_defaults(self) -> "Settings":
+        if not self.jwt_secret_key:
+            self.jwt_secret_key = secrets.token_urlsafe(48)
+        return self
 
     @property
     def mysql_url(self) -> str:

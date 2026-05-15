@@ -35,8 +35,7 @@ dependencies = [
     "neo4j>=5.0.0",
     # File I/O
     "aiofiles>=23.2.0",
-    # Document Parsing
-    "magic-pdf[full]>=0.7.0",
+    # Document Parsing (MinerU API, no local model needed)
     # Config
     "pydantic-settings>=2.0.0",
     # Logging

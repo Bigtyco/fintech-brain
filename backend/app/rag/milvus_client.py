@@ -82,3 +82,19 @@ def search_vectors(query_embedding: list[float], top_k: int = 20) -> list[dict]:
             "metadata": hit.entity.get("metadata"),
         })
     return hits
+
+
+def load_all_documents() -> list[dict]:
+    """Load all documents from Milvus for BM25 index building."""
+    try:
+        collection = get_collection()
+        collection.load()
+        results = collection.query(
+            expr="doc_id > 0",
+            output_fields=["doc_id", "chunk_index", "content"],
+            limit=10000,
+        )
+        return [{"content": r["content"], "doc_id": r["doc_id"], "chunk_index": r["chunk_index"]} for r in results]
+    except Exception as e:
+        logger.warning(f"Failed to load documents from Milvus: {e}")
+        return []

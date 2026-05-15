@@ -16,6 +16,9 @@ venv/
 # Uploads
 uploads/
 
+# Logs
+backend/logs/
+
 # IDE
 .vscode/
 .idea/

@@ -51,21 +51,20 @@ const trendData = ref({})
 const distData = ref({})
 
 const overviewCards = computed(() => [
-  { title: '风险预警', value: overview.value.risk_alerts || 0, icon: 'Warning', color: '#f56c6c' },
-  { title: '待审项目', value: overview.value.pending_reviews || 0, icon: 'Document', color: '#e6a23c' },
   { title: '已索引文档', value: overview.value.documents_indexed || 0, icon: 'Document', color: '#409eff' },
-  { title: '知识实体', value: overview.value.knowledge_entities || 0, icon: 'Connection', color: '#67c23a' },
+  { title: '对话总数', value: overview.value.conversations || 0, icon: 'DataAnalysis', color: '#67c23a' },
+  { title: 'AI 回复数', value: overview.value.ai_responses || 0, icon: 'Connection', color: '#e6a23c' },
+  { title: '风控查询', value: overview.value.risk_queries || 0, icon: 'Warning', color: '#f56c6c' },
 ])
 
 const trendOption = computed(() => ({
   tooltip: { trigger: 'axis' },
-  legend: { data: ['信用风险', '市场风险', '操作风险'] },
+  legend: { data: ['风控查询', '投研查询'] },
   xAxis: { type: 'category', data: trendData.value.labels || [] },
   yAxis: { type: 'value' },
   series: [
-    { name: '信用风险', type: 'line', data: trendData.value.credit_risk || [], smooth: true },
-    { name: '市场风险', type: 'line', data: trendData.value.market_risk || [], smooth: true },
-    { name: '操作风险', type: 'line', data: trendData.value.operational_risk || [], smooth: true },
+    { name: '风控查询', type: 'line', data: trendData.value.risk_queries || [], smooth: true },
+    { name: '投研查询', type: 'line', data: trendData.value.research_queries || [], smooth: true },
   ],
 }))
 
@@ -82,11 +81,11 @@ const pieOption = computed(() => ({
 }))
 
 onMounted(async () => {
-  const headers = { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
+  const cfg = { withCredentials: true }
   const [o, t, d] = await Promise.all([
-    axios.get('/api/dashboard/overview', { headers }),
-    axios.get('/api/dashboard/risk-trends', { headers }),
-    axios.get('/api/dashboard/risk-distribution', { headers }),
+    axios.get('/api/dashboard/overview', cfg),
+    axios.get('/api/dashboard/risk-trends', cfg),
+    axios.get('/api/dashboard/risk-distribution', cfg),
   ])
   overview.value = o.data
   trendData.value = t.data

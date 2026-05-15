@@ -12,6 +12,10 @@ export function getMe() {
   return request.get('/auth/me')
 }
 
-export function refreshToken(refresh_token) {
-  return request.post('/auth/refresh', { refresh_token })
+export function refreshToken() {
+  return request.post('/auth/refresh')
+}
+
+export function logout() {
+  return request.post('/auth/logout')
 }

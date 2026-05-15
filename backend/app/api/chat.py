@@ -26,7 +26,7 @@ async def chat(
         return ChatResponse(conversation_id=conv.id, message=response_text, intent=intent)
     except Exception as e:
         logger.error(f"Chat API error: {type(e).__name__}: {e}")
-        raise HTTPException(status_code=500, detail=f"处理请求时出错: {str(e)}")
+        raise HTTPException(status_code=500, detail="处理请求时出错，请稍后重试")
 
 
 @router.get("/conversations", response_model=list[ConversationResponse])

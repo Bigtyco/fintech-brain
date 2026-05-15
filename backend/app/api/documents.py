@@ -13,7 +13,11 @@ from app.schemas.document import DocumentResponse, DocumentUploadResponse
 from app.services.document_service import save_document_meta, list_documents, get_document, update_document_status, update_document_content
 from app.parser.mineru_parser import parse_document, chunk_text
 from app.rag.embeddings import get_embeddings
-from app.rag.milvus_client import insert_vectors
+from app.rag.milvus_client import insert_vectors, load_all_documents
+from app.rag.bm25 import bm25_index
+from app.knowledge_graph.extractor import extract_entities
+from app.knowledge_graph.neo4j_client import neo4j_client
+from app.services.cache_service import cache_delete_by_prefix
 from app.config import get_settings
 
 settings = get_settings()
@@ -50,6 +54,25 @@ async def parse_and_index_document(doc_id: int, file_path: str):
             # 写入 Milvus
             insert_vectors(doc_id, chunks, embeddings)
             logger.info(f"Vectors inserted to Milvus: doc_id={doc_id}")
+
+            # 更新 BM25 索引
+            bm25_docs = [{"content": c["content"], "doc_id": doc_id, "chunk_index": i} for i, c in enumerate(chunks)]
+            bm25_index.add_documents(bm25_docs)
+            logger.info(f"BM25 index updated: doc_id={doc_id}")
+
+            # 知识图谱实体提取
+            try:
+                kg_result = await extract_entities(markdown_content[:5000])
+                for entity in kg_result.get("entities", []):
+                    await neo4j_client.add_entity(entity["name"], entity["type"], entity.get("properties"))
+                for rel in kg_result.get("relations", []):
+                    await neo4j_client.add_relation(rel["source"], rel["target"], rel["type"], rel.get("properties"))
+                logger.info(f"KG entities extracted: doc_id={doc_id}, entities={len(kg_result.get('entities', []))}, relations={len(kg_result.get('relations', []))}")
+            except Exception as kg_err:
+                logger.warning(f"KG extraction failed for doc_id={doc_id}: {kg_err}")
+
+            # 清除搜索缓存（新文档需要被检索到）
+            await cache_delete_by_prefix("search:")
 
             # 更新状态和解析内容
             await update_document_status(db, doc_id, "completed", chunk_count=len(chunks))

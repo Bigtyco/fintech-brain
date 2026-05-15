@@ -17,6 +17,9 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 
 def get_password_hash(password: str) -> str:
+    if len(password) > 72:
+        import logging
+        logging.getLogger(__name__).warning("Password exceeds 72 bytes, truncating")
     return bcrypt.hashpw(
         password[:72].encode("utf-8"),
         bcrypt.gensalt(),

@@ -1,7 +1,9 @@
+import hashlib
 from app.rag.milvus_client import search_vectors
 from app.rag.embeddings import get_embedding
 from app.rag.bm25 import bm25_index
 from app.rag.reranker import rerank
+from app.services.cache_service import cache_get, cache_set
 from app.core.logging import logger
 
 
@@ -30,7 +32,19 @@ def rrf_fusion(vector_results: list[dict], bm25_results: list[dict], k: int = 60
     return results
 
 
+def _cache_key(query: str, top_k: int) -> str:
+    h = hashlib.md5(f"{query}:{top_k}".encode()).hexdigest()[:12]
+    return f"search:{h}"
+
+
 async def hybrid_search(query: str, top_k: int = 5) -> list[dict]:
+    # Check cache first
+    key = _cache_key(query, top_k)
+    cached = await cache_get(key)
+    if cached is not None:
+        logger.info(f"Cache hit for query: '{query[:30]}...'")
+        return cached
+
     query_embedding = await get_embedding(query)
 
     vector_results = search_vectors(query_embedding, top_k=20)
@@ -42,4 +56,8 @@ async def hybrid_search(query: str, top_k: int = 5) -> list[dict]:
     reranked = await rerank(query, fused, top_k=top_k)
 
     logger.info(f"Hybrid search: query='{query}', vector={len(vector_results)}, bm25={len(bm25_results)}, final={len(reranked)}")
+
+    # Cache results for 1 hour
+    await cache_set(key, reranked, expire=3600)
+
     return reranked

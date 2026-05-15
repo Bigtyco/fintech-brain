@@ -14,6 +14,12 @@ class BM25Index:
         self._bm25 = BM25Okapi(corpus)
         logger.info(f"BM25 index built with {len(documents)} documents")
 
+    def add_documents(self, documents: list[dict]):
+        self._documents.extend(documents)
+        corpus = [self._tokenize(doc["content"]) for doc in self._documents]
+        self._bm25 = BM25Okapi(corpus)
+        logger.info(f"BM25 index updated: {len(self._documents)} total documents")
+
     def search(self, query: str, top_k: int = 20) -> list[dict]:
         if not self._bm25 or not self._documents:
             return []

@@ -13,7 +13,7 @@ async def knowledge_graph_node(state: AgentState) -> dict:
 
     try:
         # 从查询中提取关键实体进行搜索
-        entities = await neo4j_client.search_entities(query[:20], limit=5)
+        entities = await neo4j_client.search_entities(query[:200], limit=5)
         all_relations = []
         for entity in entities:
             relations = await neo4j_client.get_entity_relations(entity["name"])

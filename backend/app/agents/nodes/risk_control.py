@@ -1,9 +1,15 @@
-from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_core.messages import HumanMessage, SystemMessage, ToolMessage
 from langchain_openai import ChatOpenAI
 from app.agents.state import AgentState
+from app.agents.tools.search_tool import search_financial_docs
+from app.agents.tools.kg_tool import query_knowledge_graph
 from app.config import get_settings
+from app.core.logging import logger
 
 settings = get_settings()
+
+TOOLS = [search_financial_docs, query_knowledge_graph]
+TOOL_MAP = {t.name: t for t in TOOLS}
 
 RISK_PROMPT = """你是一位专业的金融风控专家。基于以下上下文信息，为用户提供风险评估与控制建议。
 
@@ -26,7 +32,7 @@ async def risk_control_node(state: AgentState) -> dict:
         api_key=settings.api_key,
         base_url=settings.base_url,
         temperature=0.2,
-    )
+    ).bind_tools(TOOLS)
 
     context = state.get("context", "")
     kg_results = state.get("kg_results", [])
@@ -40,5 +46,21 @@ async def risk_control_node(state: AgentState) -> dict:
         SystemMessage(content=RISK_PROMPT.format(context=context, kg_info=kg_info)),
         HumanMessage(content=user_msg),
     ])
+
+    # Handle tool calls if the LLM requests them
+    if response.tool_calls:
+        tool_messages = []
+        for tc in response.tool_calls:
+            tool_fn = TOOL_MAP.get(tc["name"])
+            if tool_fn:
+                result = await tool_fn.ainvoke(tc["args"])
+                tool_messages.append(ToolMessage(content=str(result), tool_call_id=tc["id"]))
+
+        response = await llm.ainvoke([
+            SystemMessage(content=RISK_PROMPT.format(context=context, kg_info=kg_info)),
+            HumanMessage(content=user_msg),
+            response,
+            *tool_messages,
+        ])
 
     return {"response": response.content}

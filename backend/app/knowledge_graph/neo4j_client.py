@@ -1,8 +1,17 @@
+import re
 from neo4j import AsyncGraphDatabase
 from app.config import get_settings
 from app.core.logging import logger
 
 settings = get_settings()
+
+_SAFE_IDENTIFIER = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
+
+
+def _validate_identifier(value: str, name: str) -> str:
+    if not _SAFE_IDENTIFIER.match(value):
+        raise ValueError(f"Invalid {name}: must be alphanumeric/underscore, got '{value}'")
+    return value
 
 
 class Neo4jClient:
@@ -52,31 +61,31 @@ class Neo4jClient:
             return await result.data()
 
     async def get_subgraph(self, center: str, depth: int = 2) -> tuple[list, list]:
+        depth = max(1, min(int(depth), 3))
         async with self._driver.session() as session:
             result = await session.run(
-                """
-                MATCH path = (center)-[*1..$depth]-(neighbor)
+                f"""
+                MATCH path = (center)-[*1..{depth}]-(neighbor)
                 WHERE center.name = $center
-                WITH nodes(path) AS ns, relationships(path) AS rs
-                UNWIND ns AS n
-                WITH COLLECT(DISTINCT {id: elementId(n), name: n.name, labels: labels(n)}) AS nodes,
-                     rs
-                UNWIND rs AS r
-                RETURN nodes, COLLECT(DISTINCT {
+                UNWIND nodes(path) AS n
+                WITH COLLECT(DISTINCT {{id: elementId(n), name: n.name, labels: labels(n)}}) AS all_nodes, center
+                MATCH path = (center)-[*1..{depth}]-(neighbor)
+                UNWIND relationships(path) AS r
+                RETURN all_nodes, COLLECT(DISTINCT {{
                     source: elementId(startNode(r)),
                     target: elementId(endNode(r)),
                     type: type(r)
-                }) AS edges
+                }}) AS edges
                 """,
                 center=center,
-                depth=depth,
             )
             record = await result.single()
             if record:
-                return record["nodes"], record["edges"]
+                return record["all_nodes"], record["edges"]
             return [], []
 
     async def add_entity(self, name: str, entity_type: str, properties: dict = None):
+        _validate_identifier(entity_type, "entity_type")
         props = properties or {}
         async with self._driver.session() as session:
             await session.run(
@@ -89,6 +98,7 @@ class Neo4jClient:
             )
 
     async def add_relation(self, source: str, target: str, relation: str, properties: dict = None):
+        _validate_identifier(relation, "relation")
         props = properties or {}
         async with self._driver.session() as session:
             await session.run(

@@ -6,12 +6,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# MinerU 配置文件
-COPY magic-pdf.json /root/magic-pdf.json
-
+# 先复制依赖清单，安装依赖（利用 Docker 缓存层）
 COPY pyproject.toml .
-RUN pip install --no-cache-dir -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com -e .
+RUN mkdir -p app && touch app/__init__.py && \
+    pip install --no-cache-dir -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com . && \
+    rm -rf app
 
+# 再复制全部源码
 COPY . .
 
 EXPOSE 8000
